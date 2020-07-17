@@ -5,7 +5,7 @@ use std::process::{Command};
 
 use std::env;
 
-const INTERVAL_TIME:u64 = 3000;
+const INTERVAL_TIME:u64 = 10000;
 #[tokio::main]
 async fn main() {
     let args: Vec<String> = env::args().collect();
