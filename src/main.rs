@@ -16,7 +16,6 @@ async fn loop_schedule(){
     let args: Vec<String> = env::args().collect();
     let mut command_name = "dir";
     if args.len()>1{
-        println!("the args len greater than one the fuck:{}",args.len());
          command_name = &args[1];
     }
     let mut interval = time::interval(Duration::from_millis(INTERVAL_TIME));
