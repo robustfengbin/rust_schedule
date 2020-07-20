@@ -1,55 +1,41 @@
+use tokio::time;
+use std::time::Duration;
+use futures::executor::block_on;
+use std::process::{Command};
 
-use std::net::TcpListener;
+use std::env;
 
-use std::net::TcpStream;
- use std::io::prelude::*;
-use rust_schedule::ThreadPool;
+const INTERVAL_TIME:u64 = 30000;
+#[tokio::main]
+async fn main() {
 
- use std::fs;
-fn main(){
-    println!("hello,main");
-    let pool = ThreadPool::new(4);
-    let listener = TcpListener::bind("0.0.0.0:7878").unwrap();
-    for stream in listener.incoming() {
-        let stream = stream.unwrap();
+     loop_schedule().await;
+}
 
-        pool.execute(|| {
-            handle_connection(stream);
-        });
-
-
+async fn loop_schedule(){
+    let args: Vec<String> = env::args().collect();
+    let mut command_name = "dir";
+    if args.len()>1{
+        println!("the args len greater than one the fuck:{}",args.len());
+         command_name = &args[1];
     }
+    let mut interval = time::interval(Duration::from_millis(INTERVAL_TIME));
+    loop {
+        interval.tick().await;
+        schedule_start(command_name.to_string());
+    }
+}
 
-    
+fn schedule_start(command_str:String){
+    block_on(exec(command_str));
+}
+async fn exec(command_str:String){
+    let result  = 
+    Command::new(&command_str)
+            .output()
+            .expect("failed to execute process");
+    println!("the command '{}', run result :{:?}",command_str,result);
+
 }
 
 
-
-
-fn handle_connection(mut stream: TcpStream) {
-    let mut buffer = [0; 1024];
-    stream.read(&mut buffer).unwrap();
-
-    let get = b"GET / HTTP/1.1\r\n";
-
-    if buffer.starts_with(get) {
-        let contents = fs::read_to_string("hello.html").unwrap();
-
-        let response = format!(
-            "HTTP/1.1 200 OK\r\nContent-Length: {}\r\n\r\n{}",
-            contents.len(),
-            contents
-        );
-
-        stream.write(response.as_bytes()).unwrap();
-        stream.flush().unwrap();
-    } else {
-        let status_line = "HTTP/1.1 404 NOT FOUND\r\n\r\n";
-        let contents = fs::read_to_string("404.html").unwrap();
-
-        let response = format!("{}{}", status_line, contents);
-
-        stream.write(response.as_bytes()).unwrap();
-        stream.flush().unwrap();
-    }
-}
