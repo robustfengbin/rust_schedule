@@ -2,10 +2,10 @@
 // use std::time::Duration;
 // use futures::executor::block_on;
 // use std::process::{Command};
+// use clap::App;
 
-// use std::env;
 
-// const INTERVAL_TIME:u64 = 10000;
+
 // #[tokio::main]
 // async fn main() {
 
@@ -13,13 +13,29 @@
 // }
 
 // async fn loop_schedule(){
-//     let args: Vec<String> = env::args().collect();
-//     let mut command_name = "dir";
-//     if args.len()>1{
-//         println!("the args len greater than one the fuck:{}",args.len());
-//          command_name = &args[1];
+//     let matches = App::new("rust_schedule")
+//         .version("1.0")
+//         .author("robust. <ucgygah@gmail.com>")
+//         .about("Does awesome things")
+//         .arg("-f, --file=[FILE] 'Sets a shell command file which include full path'")
+//         .arg("-t  --time=[TIME] 'Sets a period time,the unit is ms'")
+//         .get_matches();
+//         let mut command_name = "dir";   
+//     if let Some(o) = matches.value_of("file") {
+//         println!("Value for FILE: {}", o);
+//         command_name = o
 //     }
-//     let mut interval = time::interval(Duration::from_millis(INTERVAL_TIME));
+//     let mut   interval_time :u64 = 30000;
+
+//     if let Some(o) = matches.value_of("time") {
+//         println!("Value for TIME: {}", o);
+//         interval_time = o.parse().unwrap()
+//     }
+
+//     println!("command_name:{}, time:{}",command_name,interval_time);
+
+   
+//     let mut interval = time::interval(Duration::from_millis(interval_time));
 //     loop {
 //         interval.tick().await;
 //         schedule_start(command_name.to_string());
