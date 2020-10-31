@@ -11,7 +11,7 @@ cargo build
 ## 2.run example 
 
 ```
-./target/rust_schedule -f <shell_command> -s 10 
+./target/rust_schedule -f <shell_command> -t 10 
 ```
 
 ## 3.help 
@@ -26,4 +26,4 @@ FLAGS:
 
 OPTIONS:
     -f, --file <FILE>    Sets a shell command file which include full path
-    -t, --time <TIME>    Sets a period time,the unit is ms
+    -t, --time <TIME>    Sets a period time,the unit is s

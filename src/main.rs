@@ -15,20 +15,20 @@ async fn loop_schedule(){
         .author("robust. <ucgygah@gmail.com>")
         .about("Does awesome things")
         .arg("-f, --file=[FILE] 'Sets a shell command file which include full path'")
-        .arg("-t  --time=[TIME] 'Sets a period time,the unit is ms'")
+        .arg("-t  --time=[TIME] 'Sets a period time,the unit is s'")
         .get_matches();
         let mut command_name = "dir";   
     if let Some(o) = matches.value_of("file") {
         println!("Value for FILE: {}", o);
         command_name = o
     }
-    let mut   interval_time :u64 = 30000;
+    let mut   interval_time :u64 = 30;
     if let Some(o) = matches.value_of("time") {
         println!("Value for TIME: {}", o);
         interval_time = o.parse().unwrap()
     }
     println!("command_name:{}, runing interval time:{} s",command_name,interval_time);
-    let mut interval = time::interval(Duration::from_millis(interval_time));
+    let mut interval = time::interval(Duration::from_millis(interval_time*1000));
     loop {
         interval.tick().await;
         schedule_start(command_name.to_string());
