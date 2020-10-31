@@ -1,4 +1,16 @@
-# rust_schedule
+### install 
+
+git clone git@github.com:robustfengbin/rust_schedule.git rust_schedule
+
+cd rust_schedule
+cargo build 
+
+
+### run example 
+
+./target/rust_schedule -f <shell_command> -s 10 
+
+### help 
 
 USAGE:
     rust_schedule [OPTIONS]
